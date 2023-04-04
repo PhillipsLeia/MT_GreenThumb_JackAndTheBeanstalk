@@ -11,8 +11,10 @@ Servo flap; //servo for flap to be moved
 Servo giant;  //servo for giant to be popped up
 
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(jackDownPin, INPUT);
+  pinMode(jackUpPin, INPUT);
 
+  flap.attach(9);
 }
 
 void loop() {
