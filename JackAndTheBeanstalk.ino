@@ -19,8 +19,8 @@ void setup() {
   pinMode(jackDownPin, INPUT);
   pinMode(jackUpPin, INPUT);
 
-  flap.attach(9);
-  flap.write(0);
+  flap.attach(flapPin);
+  flap.write(20);
 }
 
 void loop() {
@@ -29,15 +29,22 @@ void loop() {
 
   //Checks if Jack has climbed up or down
   if (jackDownStatus == HIGH && !flapUp)
+  {
     climbDown();
+    Serial.println("Down");
+  }
+    
   else if (jackUpStatus == HIGH && flapUp)
+  {
     climbUp();
+    Serial.println("Up");
+  }
 
 }
 
+//Flips the flap from down to up
 void climbDown(){
-  //Flips the flap from down to up
-  for (int i = 0; i <= 180; i+=1){
+  for (int i = 180; i >= 20; i-=1){
     flap.write(i);
     delay(5);
   }
@@ -45,9 +52,9 @@ void climbDown(){
   flapUp = true;
 }
 
+//Flips the flap from up to down
 void climbUp(){
-  //Flips the flap from up to down
-  for (int i = 180; i <= 0; i-=1){
+  for (int i = 20; i <= 175; i+=1){
     flap.write(i);
     delay(5);
   }
