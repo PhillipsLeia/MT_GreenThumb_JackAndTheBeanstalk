@@ -54,7 +54,7 @@ void loop() {
 
 //flips the flap from down to up
 void climbDown(){
-  for (int i = 180; i >= 20; i-=1){
+  for (int i = 175; i >= 20; i-=1){
     flap.write(i);
     delay(5);
   }
@@ -75,9 +75,11 @@ void climbUp(){
 //flips the giant around so he appears on the bottom floor
 void giantAppears(){
   
+  giantOut = true;
 }
 
 //flips the giant around so he disappears from the bottom floor
 void giantDisappears(){
   
+  giantOut = false;
 }
