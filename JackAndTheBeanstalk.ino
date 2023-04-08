@@ -10,12 +10,54 @@ const int giantPin = 10;  //this is the pin for the giant
 Servo flap; //servo for flap to be moved 
 Servo giant;  //servo for giant to be popped up
 
-void setup() {
-  // put your setup code here, to run once:
+int jackDownStatus = 0;
+int jackUpStatus = 0;
 
+bool flapUp = true;
+
+void setup() {
+  pinMode(jackDownPin, INPUT);
+  pinMode(jackUpPin, INPUT);
+
+  flap.attach(flapPin);
+  flap.write(20);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  jackDownStatus = digitalRead(jackDownPin);
+  jackUpStatus = digitalRead(jackUpPin);
 
+  //Checks if Jack has climbed up or down
+  if (jackDownStatus == HIGH && !flapUp)
+  {
+    climbDown();
+    Serial.println("Down");
+  }
+    
+  else if (jackUpStatus == HIGH && flapUp)
+  {
+    climbUp();
+    Serial.println("Up");
+  }
+
+}
+
+//Flips the flap from down to up
+void climbDown(){
+  for (int i = 180; i >= 20; i-=1){
+    flap.write(i);
+    delay(5);
+  }
+
+  flapUp = true;
+}
+
+//Flips the flap from up to down
+void climbUp(){
+  for (int i = 20; i <= 175; i+=1){
+    flap.write(i);
+    delay(5);
+  }
+
+  flapUp = false;
 }
