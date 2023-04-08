@@ -21,31 +21,38 @@ bool giantOut = false; //if the giant is out
 void setup() {
   pinMode(jackDownPin, INPUT);
   pinMode(jackUpPin, INPUT);
+  pinMode(henDownPin, INPUT);
+  pinMode(allUpPin, INPUT);
 
   flap.attach(flapPin);
   flap.write(20);
+
+  giant.attach(giantPin);
+  giant.write(0);
 }
 
 void loop() {
   jackDownStatus = digitalRead(jackDownPin);
   jackUpStatus = digitalRead(jackUpPin);
 
+  henDownStatus = digitalRead(henDownPin);
+  allUpStatus = digitalRead(allUpPin);
+
   //Checks if Jack has climbed up or down
   if (jackDownStatus == HIGH && !flapUp)
-  {
     climbDown();
-    Serial.println("Down");
-  }
-    
   else if (jackUpStatus == HIGH && flapUp)
-  {
     climbUp();
-    Serial.println("Up");
-  }
+
+  // checks if the giant should appear or disappear
+  if (henDownStatus == HIGH && !giantOut)
+    giantAppears();
+  else if (allUpStatus == HIGH && giantOut)
+    giantDisappears();
 
 }
 
-//Flips the flap from down to up
+//flips the flap from down to up
 void climbDown(){
   for (int i = 180; i >= 20; i-=1){
     flap.write(i);
@@ -55,7 +62,7 @@ void climbDown(){
   flapUp = true;
 }
 
-//Flips the flap from up to down
+//flips the flap from up to down
 void climbUp(){
   for (int i = 20; i <= 175; i+=1){
     flap.write(i);
@@ -63,4 +70,14 @@ void climbUp(){
   }
 
   flapUp = false;
+}
+
+//flips the giant around so he appears on the bottom floor
+void giantAppears(){
+  
+}
+
+//flips the giant around so he disappears from the bottom floor
+void giantDisappears(){
+  
 }
