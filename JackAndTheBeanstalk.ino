@@ -83,3 +83,23 @@ void giantDisappears(){
   
   giantOut = false;
 }
+
+//giant appears
+void giantAppears() {
+  for (int i = 0; i <= 180; i += 1) {
+    flap.write(i);
+    delay(5);
+  }
+
+  flapUp = true;
+}
+
+//giant disappears
+void giantDisappears() {
+  for (int i = 180; i >= 0; i -= 1) {
+    flap.write(i);
+    delay(5);
+  }
+
+  flapUp = false;
+}
