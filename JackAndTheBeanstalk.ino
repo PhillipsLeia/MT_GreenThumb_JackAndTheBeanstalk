@@ -15,8 +15,11 @@ int jackUpStatus = 0; //if jack is detected at the top of the beanstalk
 int henDownStatus = 0; //if the hen is detected on the bottom floor
 int allUpStatus = 0; //if all of the giants stuff is detected on the top floor
 
-bool flapUp = true; //if the flap is currently up
+bool isFlapUp = true; //if the flap is currently up
 bool giantOut = false; //if the giant is out
+
+int flapUp = 0;
+int flapDown = 170;
 
 void setup() {
   pinMode(jackDownPin, INPUT);
@@ -25,7 +28,7 @@ void setup() {
   pinMode(allUpPin, INPUT);
 
   flap.attach(flapPin);
-  flap.write(20);
+  flap.write(flapUp);
 
   giant.attach(giantPin);
   giant.write(0);
@@ -39,9 +42,9 @@ void loop() {
   allUpStatus = digitalRead(allUpPin);
 
   //Checks if Jack has climbed up or down
-  if (jackDownStatus == HIGH && !flapUp)
+  if (jackDownStatus == HIGH && !isFlapUp)
     climbDown();
-  else if (jackUpStatus == HIGH && flapUp)
+  else if (jackUpStatus == HIGH && isFlapUp)
     climbUp();
 
   // checks if the giant should appear or disappear
@@ -54,22 +57,22 @@ void loop() {
 
 //flips the flap from down to up
 void climbDown(){
-  for (int i = 175; i >= 20; i-=1){
+  for (int i = flapDown; i >= flapUp; i-=1){
     flap.write(i);
     delay(5);
   }
 
-  flapUp = true;
+  isFlapUp = true;
 }
 
 //flips the flap from up to down
 void climbUp(){
-  for (int i = 20; i <= 175; i+=1){
+  for (int i = flapUp; i <= flapDown; i+=1){
     flap.write(i);
     delay(5);
   }
 
-  flapUp = false;
+  isFlapUp = false;
 }
 
 //flips the giant around so he appears on the bottom floor
